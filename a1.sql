@@ -1,30 +1,100 @@
-CREATE TABLE employees(
-ID INTEGER PRIMARY KEY,
-NAME TEXT,
-CITY TEXT,
-COMMISION TEXT
-);
-INSERT INTO employees(employees_id,NAME,COMMISION,CITY) VALUES
-('11','smith','london',0.15),
-('12','jhons','paris',0.11),
-('13','blake','paris',0.13),
-('14','clarke','london',0.14),
-('15','adams','athens'0.12);
-SELECT * FROM employees;
+-- ---- PART 1: Create and Explore the Product Table ----
 
-CREATE TABLE IF NOT EXISTS orders(
-ord_no TEXT PRIMARY KEY,
-purch_amt REAL,
-ord_dare TEXT,
-customer_id TEXT,
-employees_id TEXT
+DROP TABLE IF EXISTS PRODUCT;
+
+CREATE TABLE PRODUCT (
+    PRO_ID      TEXT PRIMARY KEY,
+    PRO_NAME    TEXT NOT NULL,
+    PRO_PRICE   INTEGER NOT NULL,
+    PRO_COM     TEXT NOT NULL
 );
-INSERT INTO orders(ord_no,purch_amt,ord_dare,customer_id,employees_id) VALUES
-('1331',130.4,'2012-10-05','3002',5006),
-('1332',34.7,'2012-9-10','3004'5008),
-('1333',89.6,'2012-10-05','3008'5004),
-('1334','67.1,'2012-8-17','3006'5003),
-('1335',122.9,'2012-9-10''3005'5002);
-SELECT * FROM employees;
-SELECT name,commision
-FROM employees;
+
+-- Insert sample computer store products
+INSERT INTO PRODUCT (PRO_ID, PRO_NAME, PRO_PRICE, PRO_COM) VALUES
+('101', 'MOTHER BOARD',      3200, 'TECHPRO'),
+('102', 'KEY BOARD',          450, 'KEYMAX'),
+('103', 'ZIP DRIVE',          250, 'DATAFIX'),
+('104', 'SPEAKER',            550, 'SOUNDCO'),
+('105', 'MONITOR',           5000, 'VIEWTECH'),
+('106', 'DVD DRIVE',          900, 'DATAFIX'),
+('107', 'CD DRIVE',           800, 'DATAFIX'),
+('108', 'PRINTER',           2600, 'PRINTPLUS'),
+('109', 'REFILL CARTRIDGE',   350, 'PRINTPLUS'),
+('110', 'MOUSE',              250, 'KEYMAX');
+
+-- Display all products
+SELECT * FROM PRODUCT;
+
+-- ---- PART 2: AND and OR Clause ----
+
+-- Products priced below 1000 AND made by DATAFIX
+SELECT *
+FROM PRODUCT
+WHERE PRO_PRICE < 1000 AND PRO_COM = 'DATAFIX';
+
+-- Products made by KEYMAX OR priced above 3000
+SELECT *
+FROM PRODUCT
+WHERE PRO_COM = 'KEYMAX' OR PRO_PRICE > 3000;
+
+-- Products under 1000 that are either DATAFIX or KEYMAX items
+SELECT *
+FROM PRODUCT
+WHERE PRO_PRICE < 1000
+  AND (PRO_COM = 'DATAFIX' OR PRO_COM = 'KEYMAX');
+
+-- ---- PART 3: LIKE Clause ----
+
+-- Find product names that begin with M
+SELECT *
+FROM PRODUCT
+WHERE PRO_NAME LIKE 'M%';
+
+-- Find product names that end with DRIVE
+SELECT *
+FROM PRODUCT
+WHERE PRO_NAME LIKE '%DRIVE';
+
+-- Find product names that contain the word PRINT
+SELECT *
+FROM PRODUCT
+WHERE PRO_NAME LIKE '%PRINT%';
+
+-- ---- PART 4: MIN() and MAX() ----
+
+-- Find the lowest-priced product
+SELECT PRO_NAME, PRO_PRICE
+FROM PRODUCT
+WHERE PRO_PRICE = (
+    SELECT MIN(PRO_PRICE)
+    FROM PRODUCT
+);
+
+-- Find the highest-priced product
+SELECT PRO_NAME, PRO_PRICE
+FROM PRODUCT
+WHERE PRO_PRICE = (
+    SELECT MAX(PRO_PRICE)
+    FROM PRODUCT
+);
+
+-- ---- PART 5: UPDATE Query ----
+
+-- Change the price of the Speaker
+UPDATE PRODUCT
+SET PRO_PRICE = 600
+WHERE PRO_ID = '104';
+
+-- Check the updated product
+SELECT *
+FROM PRODUCT
+WHERE PRO_ID = '104';
+
+-- ---- PART 6: DELETE Query ----
+
+-- Remove the ZIP DRIVE product from the table
+DELETE FROM PRODUCT
+WHERE PRO_ID = '103';
+
+-- Display the remaining products
+SELECT * FROM PRODUCT;
