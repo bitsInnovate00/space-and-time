@@ -1,100 +1,33 @@
--- ---- PART 1: Create and Explore the Product Table ----
-
-DROP TABLE IF EXISTS PRODUCT;
-
-CREATE TABLE PRODUCT (
-    PRO_ID      TEXT PRIMARY KEY,
-    PRO_NAME    TEXT NOT NULL,
-    PRO_PRICE   INTEGER NOT NULL,
-    PRO_COM     TEXT NOT NULL
+CREATE TABLE Zoo_animal1(
+ANIMAL_ID INTEGER PRIMARY KEY,
+NAME TEXT NOT NULL,
+SPECIES TEXT NOT NULL,
+AGE_YEARS INTEGER NOT NULL,
+WEIGHT_KG REAL NOT NULL
 );
+INSERT INTO Zoo_animal1 VALUES(1,'lion','big cat',5,190.0);
+INSERT INTO Zoo_animal1 VALUES(2,'tiger','big cat',3,220.0);
+INSERT INTO Zoo_animal1 VALUES(3,'elephant','pachyderm',12,4500.0);
+INSERT INTO Zoo_animal1 VALUES(4,'girrafe','ungulate',7,800.0);
+INSERT INTO Zoo_animal1 VALUES(5,'penguin','bird',2,5.0);
+INSERT INTO Zoo_animal1 VALUES(6,'panda','bear',6,95.0);
+INSERT INTO Zoo_animal1 VALUES(7,'cheetah','big cat',4,55.0);
+INSERT INTO Zoo_animal1 VALUES(8,'rhino','pachyderm',9,2800.0);
+SELECT * FROM zoo_animal1;
+SELECT SPECIES FROM Zoo_animal1;
+SELECT DISTINCT SPECIES FROM Zoo_animal1;
 
--- Insert sample computer store products
-INSERT INTO PRODUCT (PRO_ID, PRO_NAME, PRO_PRICE, PRO_COM) VALUES
-('101', 'MOTHER BOARD',      3200, 'TECHPRO'),
-('102', 'KEY BOARD',          450, 'KEYMAX'),
-('103', 'ZIP DRIVE',          250, 'DATAFIX'),
-('104', 'SPEAKER',            550, 'SOUNDCO'),
-('105', 'MONITOR',           5000, 'VIEWTECH'),
-('106', 'DVD DRIVE',          900, 'DATAFIX'),
-('107', 'CD DRIVE',           800, 'DATAFIX'),
-('108', 'PRINTER',           2600, 'PRINTPLUS'),
-('109', 'REFILL CARTRIDGE',   350, 'PRINTPLUS'),
-('110', 'MOUSE',              250, 'KEYMAX');
+SELECT COUNT(ANIMAL_ID)AS total_animals FROM Zoo_animal1;
 
--- Display all products
-SELECT * FROM PRODUCT;
+SELECT COUNT(ANIMAL_ID)AS older_than_5 FROM Zoo_animal1 WHERE age_years>5;
 
--- ---- PART 2: AND and OR Clause ----
+SELECT SUM(WEIGHT_KG)AS total_weight_kg FROM Zoo_animal1;
 
--- Products priced below 1000 AND made by DATAFIX
-SELECT *
-FROM PRODUCT
-WHERE PRO_PRICE < 1000 AND PRO_COM = 'DATAFIX';
+SELECT AVG(AGE_YEARS)AS avg_age_years FROM Zoo_animal1;
 
--- Products made by KEYMAX OR priced above 3000
-SELECT *
-FROM PRODUCT
-WHERE PRO_COM = 'KEYMAX' OR PRO_PRICE > 3000;
-
--- Products under 1000 that are either DATAFIX or KEYMAX items
-SELECT *
-FROM PRODUCT
-WHERE PRO_PRICE < 1000
-  AND (PRO_COM = 'DATAFIX' OR PRO_COM = 'KEYMAX');
-
--- ---- PART 3: LIKE Clause ----
-
--- Find product names that begin with M
-SELECT *
-FROM PRODUCT
-WHERE PRO_NAME LIKE 'M%';
-
--- Find product names that end with DRIVE
-SELECT *
-FROM PRODUCT
-WHERE PRO_NAME LIKE '%DRIVE';
-
--- Find product names that contain the word PRINT
-SELECT *
-FROM PRODUCT
-WHERE PRO_NAME LIKE '%PRINT%';
-
--- ---- PART 4: MIN() and MAX() ----
-
--- Find the lowest-priced product
-SELECT PRO_NAME, PRO_PRICE
-FROM PRODUCT
-WHERE PRO_PRICE = (
-    SELECT MIN(PRO_PRICE)
-    FROM PRODUCT
-);
-
--- Find the highest-priced product
-SELECT PRO_NAME, PRO_PRICE
-FROM PRODUCT
-WHERE PRO_PRICE = (
-    SELECT MAX(PRO_PRICE)
-    FROM PRODUCT
-);
-
--- ---- PART 5: UPDATE Query ----
-
--- Change the price of the Speaker
-UPDATE PRODUCT
-SET PRO_PRICE = 600
-WHERE PRO_ID = '104';
-
--- Check the updated product
-SELECT *
-FROM PRODUCT
-WHERE PRO_ID = '104';
-
--- ---- PART 6: DELETE Query ----
-
--- Remove the ZIP DRIVE product from the table
-DELETE FROM PRODUCT
-WHERE PRO_ID = '103';
-
--- Display the remaining products
-SELECT * FROM PRODUCT;
+SELECT
+COUNT(ANIMAL_ID) AS total_animal,
+COUNT(DISTINCT_SPECIES) AS unique_species,
+SUM(WEIGHT_KG)AS total_weight_kg
+AVG(AGE_YEARS)AS avg_age_years
+FROM Zoo_animal1;
