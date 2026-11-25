@@ -1,33 +1,32 @@
-CREATE TABLE Zoo_animal1(
-ANIMAL_ID INTEGER PRIMARY KEY,
-NAME TEXT NOT NULL,
-SPECIES TEXT NOT NULL,
-AGE_YEARS INTEGER NOT NULL,
-WEIGHT_KG REAL NOT NULL
+CREATE TABLE book(
+BOOK_ID INTEGER PRIMARY KEY,
+TITLE TEXT NOT NULL,
+GENRE TEXT NOT NULL,
+RATING REAL NOT NULL,
+PAGES INTEGER NOT NULL,
+PUB_YEARS INTEGER NOT NULL
 );
-INSERT INTO Zoo_animal1 VALUES(1,'lion','big cat',5,190.0);
-INSERT INTO Zoo_animal1 VALUES(2,'tiger','big cat',3,220.0);
-INSERT INTO Zoo_animal1 VALUES(3,'elephant','pachyderm',12,4500.0);
-INSERT INTO Zoo_animal1 VALUES(4,'girrafe','ungulate',7,800.0);
-INSERT INTO Zoo_animal1 VALUES(5,'penguin','bird',2,5.0);
-INSERT INTO Zoo_animal1 VALUES(6,'panda','bear',6,95.0);
-INSERT INTO Zoo_animal1 VALUES(7,'cheetah','big cat',4,55.0);
-INSERT INTO Zoo_animal1 VALUES(8,'rhino','pachyderm',9,2800.0);
-SELECT * FROM zoo_animal1;
-SELECT SPECIES FROM Zoo_animal1;
-SELECT DISTINCT SPECIES FROM Zoo_animal1;
+INSERT INTO book VALUES(1,'dragon quest','fantasy',9.2,312,2021);
+INSERT INTO book VALUES(2,'code wizards','sci-fi',8.5,280,2020);
+INSERT INTO book VALUES(3,'ocean deep','adventure',7.8,195,2022);
+INSERT INTO book VALUES(4,'star rangers','sci-fi',9.5,340,2019);
+INSERT INTO book VALUES(5,'forest secrets','fantasy',8.1,228,2023);
+INSERT INTO book VALUES(6,'robot city','sci-fi',7.2,260,2021);
+INSERT INTO book VALUES(7,'time jumpers','adventure',8.9,175,2022);
+INSERT INTO book VALUES(3,'magic academy','fantasy',9.5,359,2024);
+SELECT * FROM book;
 
-SELECT COUNT(ANIMAL_ID)AS total_animals FROM Zoo_animal1;
+SELECT title,rating FROM book ORDER BY rating ASC;
+SELECT title,rating FROM book ORDER BY rating DESC;
+SELECT title,genre,rating FROM book ORDER BY genre ASC,rating DESC;
+SELECT title,rating FROM book ORDER BY rating DESC LIMIT 3;
+SELECT title,pub_years FROM book ORDER BY pub_year ASC LIMIT 5;
 
-SELECT COUNT(ANIMAL_ID)AS older_than_5 FROM Zoo_animal1 WHERE age_years>5;
+SELECT genre,COUNT(*)AS book_count FROM book GROUP by genre;
+SELECT genre,SUM(pages)AS total_pages,AVG(rating)AS avg_rating FROM book;
+GROUP by genre;
 
-SELECT SUM(WEIGHT_KG)AS total_weight_kg FROM Zoo_animal1;
-
-SELECT AVG(AGE_YEARS)AS avg_age_years FROM Zoo_animal1;
-
-SELECT
-COUNT(ANIMAL_ID) AS total_animal,
-COUNT(DISTINCT_SPECIES) AS unique_species,
-SUM(WEIGHT_KG)AS total_weight_kg
-AVG(AGE_YEARS)AS avg_age_years
-FROM Zoo_animal1;
+SELECT genre,COUNT(*)AS book_count FROM book GROUP by genre
+HAVING COUNT(*)>2;
+SELECT genre,AVG(rating)AS avg_rating FROM book GROUP by genre
+HAVING AVG(rating)>==8.5;
